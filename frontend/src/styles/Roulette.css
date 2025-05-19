@@ -1,0 +1,160 @@
+/* Podstawowe zmienne kolorów dla klasycznego wyglądu */
+:root {
+  --roulette-red: #D92626;
+  --roulette-black: #333;
+  --roulette-green: #008000;
+  --roulette-wood: #8B4513; /* Brązowy na pierścień */
+  --roulette-gold: #FFD700; /* Złoty na akcenty */
+  --roulette-silver: #C0C0C0; /* Srebrny na centralny element */
+  --roulette-label-color: #FFFFFF; /* Kolor numerów */
+}
+
+/* Styl dla kontenera (może pozostać bez zmian lub dostać klasę) */
+.roulette-container.classic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px auto;
+  position: relative; /* Ważne dla pozycjonowania elementów */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Bardziej neutralna czcionka */
+}
+
+/* Nowy wskaźnik - symulacja kulki lub wskaźnika w kasynie */
+.roulette-pointer.classic-pointer {
+  width: 15px;
+  height: 15px;
+  background-color: var(--roulette-gold); /* Złoty wskaźnik */
+  border: 2px solid white;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px; /* Trochę niżej, nad zewnętrznym pierścieniem */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15; /* Musi być na wierzchu */
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+/* Wrapper koła - dodajemy perspektywę dla 3D (opcjonalnie) */
+.roulette-wheel-wrapper.classic-wrapper {
+  position: relative;
+  margin-bottom: 25px;
+  width: 100%; /* Dopasowanie do kontenera */
+  aspect-ratio: 1 / 1; /* Utrzymanie proporcji kwadratu */
+  /* perspective: 1000px; */ /* Opcjonalna perspektywa dla efektów 3D */
+}
+
+/* Zewnętrzny pierścień - symulacja drewnianej obręczy */
+.roulette-outer-ring {
+  position: absolute;
+  top: -5%; /* Trochę wystaje poza koło */
+  left: -5%;
+  width: 110%; /* Większy niż koło */
+  height: 110%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, #a0522d 0%, var(--roulette-wood) 70%, #5a2d0c 100%); /* Gradient drewna */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(0,0,0,0.5);
+  z-index: 5;
+}
+
+/* Centralny element - np. metalowy */
+.roulette-center-piece {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25%; /* Rozmiar względem koła */
+  height: 25%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, #f0f0f0 0%, var(--roulette-silver) 60%, #808080 100%); /* Metaliczny gradient */
+  border-radius: 50%;
+  border: 3px solid #555;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.3);
+  z-index: 12; /* Nad kołem, pod wskaźnikiem */
+}
+
+/* Główne koło z numerami */
+.roulette-wheel.classic-wheel {
+  border-radius: 50%;
+  border: 2px solid var(--roulette-gold); /* Złota ramka wokół segmentów */
+  position: absolute; /* Pozycjonowanie wewnątrz wrappera */
+  top: 0;
+  left: 0;
+  width: 100%; /* Zajmuje całą przestrzeń wrappera */
+  height: 100%;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.6); /* Cień wewnętrzny dla głębi */
+  z-index: 10; /* Nad pierścieniem, pod centrum */
+  /* transform-style: preserve-3d; */ /* Dla potencjalnych efektów 3D */
+}
+
+/* Numery na kole */
+.roulette-label.classic-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: calc(var(--base-size, 350px) * 0.04); /* Rozmiar czcionki zależny od rozmiaru koła */
+  font-weight: bold;
+  color: var(--roulette-label-color); /* Białe numery */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7); /* Cień dla czytelności */
+  text-align: center;
+  user-select: none;
+  transform-origin: center center; /* Ważne dla poprawnego obrotu */
+}
+
+/* Przycisk */
+.spin-button.classic-button {
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(180deg, #6a8a51 0%, var(--roulette-green) 100%); /* Zielony gradient */
+  color: white;
+  border: 1px solid #385a2a;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2), inset 0 -2px 3px rgba(0,0,0,0.15), inset 0 1px 1px rgba(255,255,255,0.3);
+  transition: all 0.2s ease;
+  margin-bottom: 20px;
+}
+
+.spin-button.classic-button:disabled {
+  background: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+  color: #ccc;
+}
+
+.spin-button.classic-button:not(:disabled):hover {
+  background: linear-gradient(180deg, #7faa61 0%, #009000 100%);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.25), inset 0 -2px 3px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.4);
+}
+
+.spin-button.classic-button:not(:disabled):active {
+   box-shadow: 0 2px 3px rgba(0,0,0,0.2), inset 0 1px 3px rgba(0,0,0,0.3);
+   transform: translateY(1px);
+}
+
+/* Wyświetlanie wyniku */
+.result-display.classic-result {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 15px 25px;
+  border-radius: 5px;
+  min-width: 200px;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  border: 1px solid rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Dynamiczne tło dla wyniku */
+.result-display.red { background-color: var(--roulette-red); }
+.result-display.black { background-color: var(--roulette-black); }
+.result-display.green { background-color: var(--roulette-green); }
+
+.result-display .result-number {
+  font-size: 1.2em; /* Większy numer */
+  margin-right: 5px;
+}

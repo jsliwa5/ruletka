@@ -1,0 +1,26 @@
+.topup-container {
+  margin-bottom: 1rem;
+}
+
+.topup-container button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 1rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.topup-container button:hover {
+  background-color: #2980b9;
+}
+
+.topup-container input {
+  width: 80px;
+  padding: 0.3rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}

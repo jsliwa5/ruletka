@@ -1,0 +1,264 @@
+/* Podstawowe style */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; /* Usuwa domyślny margines body */
+    padding: 0; /* Usuwa domyślny padding body */
+    /* Usunięto tło - panele będą teraz pokrywać całość */
+    box-sizing: border-box; /* Lepsze zarządzanie modelem pudełkowym */
+}
+
+/* Poprawka globalna box-sizing */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Główny kontener dzielony - teraz wypełnia cały ekran */
+.split-container {
+    display: flex;
+    width: 100vw; /* Pełna szerokość widoku */
+    height: 100vh; /* Pełna wysokość widoku */
+    /* Usunięto style tworzące efekt "okienka": */
+    /* max-width: 900px; */
+    /* min-height: 550px; */
+    /* background-color: #fff; */ /* Tło ustawiane teraz w panelach */
+    /* border-radius: 12px; */
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
+    /* overflow: hidden; */ /* Można przywrócić, jeśli treść wychodzi poza ekran */
+}
+
+/* Lewy panel */
+.left-pane {
+    flex: 1; /* Zajmuje dostępną przestrzeń (domyślnie 50%) */
+    padding: 40px 50px;
+    background: linear-gradient(135deg, #007bff, #0056b3); /* Gradient tła */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Wyśrodkuj zawartość pionowo */
+    align-items: center; /* Wyrównaj do lewej */
+    text-align: left;
+    overflow-y: auto; /* Dodaj przewijanie, jeśli treść jest za długa */
+}
+
+.left-pane h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.left-pane p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+/* Prawy panel */
+.right-pane {
+    flex: 1; /* Zajmuje dostępną przestrzeń (domyślnie 50%) */
+    padding: 40px 50px;
+    background-color: #fff; /* Dodano jawne białe tło */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Wyśrodkuj zawartość pionowo */
+    align-items: center; /* Wyśrodkuj zawartość poziomo */
+    position: relative; /* Potrzebne do pozycjonowania przycisku Powrót */
+    overflow-y: auto; /* Dodaj przewijanie, jeśli treść jest za długa */
+}
+
+/* Początkowy widok z przyciskami */
+#initial-view {
+    text-align: center;
+    width: 100%; /* Aby elementy wewnątrz mogły używać max-width */
+}
+
+#initial-view h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column; /* Przyciski jeden pod drugim */
+    gap: 15px; /* Odstęp między przyciskami */
+    width: 100%;
+    max-width: 300px; /* Ogranicz szerokość przycisków */
+    margin: 0 auto; /* Wyśrodkuj grupę przycisków */
+}
+
+.action-button {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+#show-login-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+#show-register-btn {
+    background-color: #007bff; /* Zielony dla rejestracji */
+    color: white;
+}
+
+.action-button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px); /* Lekkie uniesienie */
+}
+
+/* Kontener formularzy (wspólne dla obu) */
+.form-container {
+    width: 100%;
+    max-width: 350px; /* Szerokość formularzy */
+    text-align: left; /* Wyrównaj tekst w formularzu do lewej */
+    position: relative; /* Dla przycisku powrotu */
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#register-form .submit-button {
+     background-color: #007bff; /* Zielony przycisk dla rejestracji */
+}
+
+
+.submit-button:hover {
+    opacity: 0.9;
+}
+
+/* Przycisk Powrót */
+.back-button {
+    position: absolute;
+    top: 25px; /* Nieco większy odstęp od góry */
+    left: 25px; /* Nieco większy odstęp od lewej */
+    background-color: transparent; /* Przezroczyste tło domyślnie */
+    border: none; /* Bez obramowania */
+    color: #6c757d; /* Neutralny szary kolor dla ikony */
+    width: 40px; /* Szerokość przycisku */
+    height: 40px; /* Wysokość przycisku */
+    border-radius: 50%; /* Okrągły kształt */
+    font-size: 1.8rem; /* Rozmiar strzałki (ikony) */
+    font-weight: bold; /* Pogrubienie strzałki */
+    line-height: 1; /* Dla lepszego wyśrodkowania strzałki w niektórych przeglądarkach */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0; /* Usunięcie domyślnego paddingu */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Płynne przejście */
+    z-index: 10; /* Upewnij się, że jest na wierzchu */
+}
+
+.back-button:hover,
+.back-button:focus {
+    background-color: #f0f2f5; /* Jasnoszare tło po najechaniu/focusie */
+    color: #007bff; /* Niebieski kolor ikony po najechaniu/focusie */
+    outline: none; /* Usunięcie domyślnego obrysu focusu (ponieważ mamy własny efekt) */
+}
+
+/* Dodatkowy styl dla lepszej widoczności focusu (dostępność) */
+.back-button:focus-visible {
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Delikatny niebieski cień jako wskaźnik focusu */
+}
+
+
+/* Klasa do ukrywania elementów */
+.hidden {
+    display: none !important; /* Użyj !important, aby nadpisać inne style display */
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .split-container {
+        flex-direction: column; /* Panele jeden pod drugim */
+    }
+
+    .left-pane, .right-pane {
+        flex: none;
+        width: 100%;
+        min-height: 50vh;
+        padding: 30px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+     .left-pane h1 {
+        font-size: 2rem;
+    }
+     .left-pane p {
+        font-size: 1rem;
+    }
+    .left-pane {
+        align-items: center;
+    }
+
+     .back-button {
+        /* Dostosuj pozycję dla widoku mobilnego, jeśli jest taka potrzeba */
+        top: 20px;
+        left: 20px;
+        width: 36px; /* Nieco mniejszy na mobilnych */
+        height: 36px;
+        font-size: 1.6rem;
+    }
+
+    .form-container {
+         max-width: 100%;
+         padding: 0 15px;
+    }
+    #initial-view h2, .form-container h2 {
+        margin-top: 40px; /* Zwiększony margines, aby zrobić miejsce dla przycisku powrotu */
+    }
+}

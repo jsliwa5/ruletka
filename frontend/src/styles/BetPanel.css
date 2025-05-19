@@ -1,0 +1,59 @@
+.bet-panel {
+  text-align: center;
+  padding: 1rem;
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 30px);
+  grid-auto-rows: 30px;
+  gap: 4px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.bet-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.bet-cell.red {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.bet-cell.black {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.bet-cell.selected {
+  outline: 3px solid gold;
+}
+
+.special-bets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.bet-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #eee;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bet-button.selected {
+  background-color: gold;
+}
