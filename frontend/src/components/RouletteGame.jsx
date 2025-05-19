@@ -31,6 +31,11 @@ const RouletteGame = ({ initialBalance, onBalanceChange, fetchBalance }) => {
   const [message, setMessage] = useState('');
   const [canSpin, setCanSpin] = useState(true);
 
+  const handleManualTopUp = (newBalance) => {
+    setBalance(newBalance);
+    balanceRef.current = newBalance;
+  };
+
   const handleBet = () => {
     if (!selectedBet) {
       setMessage('Wybierz zakład.');
@@ -105,16 +110,6 @@ const RouletteGame = ({ initialBalance, onBalanceChange, fetchBalance }) => {
     setCanSpin(true);
   };
 
-  // ✅ Nowa funkcja obsługi doładowania
-  const handleTopUp = (amount) => {
-    const newBalance = balanceRef.current + amount;
-    balanceRef.current = newBalance;
-    setBalance(newBalance);
-    if (onBalanceChange) {
-      onBalanceChange(newBalance, amount, 'topup', null, 'topup', amount);
-    }
-  };
-
   return (
     <div className="roulette-game-layout">
       <div className="roulette-left">
@@ -127,7 +122,7 @@ const RouletteGame = ({ initialBalance, onBalanceChange, fetchBalance }) => {
 
       <div className="roulette-right">
         {/* ✅ Nowe przyciski */}
-        <TopUpPanel onTopUp={handleTopUp} />
+        <TopUpPanel onBalanceUpdate={handleManualTopUp} />
         <LogoutButton />
 
         <div className="roulette-bet-panel">

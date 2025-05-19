@@ -59,23 +59,43 @@ const Login = () => {
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:8000/api/login/', { // <-- POTENCJALNY BŁĄD W ENDPOINT
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': getCSRFToken(), // CSRF token jest potrzebny dla POST, jeśli nie ma @csrf_exempt
-      },
-      credentials: 'include',
-      body: JSON.stringify(registerData),
-    });
-    // Należy również obsłużyć odpowiedź (response.ok, błędy etc.) podobnie jak w handleLoginSubmit
-    const result = await response.text(); // lub response.json() zależnie od API
-    alert('Odpowiedź rejestracji: ' + result);
-    if (response.ok) {
-      setView('login'); // Np. przekieruj do logowania po udanej rejestracji
-      setLoginResult('Rejestracja zakończona pomyślnie. Możesz się teraz zalogować.');
-    } else {
-      // Obsługa błędów rejestracji
+
+    // Prosta walidacja frontendowa przed wysłaniem
+    if (registerData.password !== registerData.confirm_password) {
+      setLoginResult('Hasła nie są takie same.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8000/api/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // jeśli endpoint nie jest csrf_exempt, dodaj CSRF token
+          // 'X-CSRFToken': getCSRFToken(),
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          username: registerData.username,
+          password1: registerData.password,
+          password2: registerData.confirm_password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setView('login');
+        setLoginResult('✅ Rejestracja zakończona. Możesz się teraz zalogować.');
+      } else {
+        const errors = Object.entries(result.errors || {})
+          .map(([field, msgs]) => `${field}: ${msgs.join(', ')}`)
+          .join(' | ');
+        setLoginResult(`❌ Błąd rejestracji: ${errors}`);
+      }
+    } catch (error) {
+      console.error('Błąd rejestracji:', error);
+      setLoginResult('Błąd sieci lub serwera przy rejestracji.');
     }
   };
 

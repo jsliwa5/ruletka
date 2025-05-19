@@ -1,10 +1,13 @@
-from django.shortcuts import render  # Dodaj ten import
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from .models import Player, GameHistory
-from django.contrib.auth.decorators import login_required
 import json
+from django.contrib.auth.forms import UserCreationForm
+from decimal import Decimal
 
 # Nowa funkcja widoku strony głównej (dodaj przed istniejącymi funkcjami)
 def home(request):
@@ -90,4 +93,61 @@ def get_game_history(request):
             except Player.DoesNotExist:
                 return JsonResponse({'error': 'Player profile does not exist'}, status=404)
         return JsonResponse({'status': 'unauthorized'}, status=401)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@csrf_exempt
+def register(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            form = UserCreationForm({
+                'username': data.get('username'),
+                'password1': data.get('password1'),
+                'password2': data.get('password2')
+            })
+            if form.is_valid():
+                user = form.save()
+                # Usunięto ręczne tworzenie Player, ponieważ robi to sygnał
+                return JsonResponse({'status': 'success'})
+            return JsonResponse({'errors': form.errors}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+
+@csrf_exempt
+def add_funds(request):
+    if request.method == 'POST':
+        try:
+            if not request.user.is_authenticated:
+                return JsonResponse({'error': 'Unauthorized'}, status=401)
+
+            data = json.loads(request.body)
+            # Zamiana na Decimal, aby uniknąć mieszania float + Decimal
+            amount = Decimal(str(data['amount']))
+
+            player = Player.objects.get(user=request.user)
+            player.balance += amount
+            player.save()
+
+            return JsonResponse({
+                'status': 'success',
+                'new_balance': float(player.balance)
+            })
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except (KeyError, ValueError):
+            return JsonResponse({'error': 'Invalid amount'}, status=400)
+        except Player.DoesNotExist:
+            return JsonResponse({'error': 'Player not found'}, status=404)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+@csrf_exempt
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return JsonResponse({'status': 'success'})
     return JsonResponse({'error': 'Method not allowed'}, status=405)

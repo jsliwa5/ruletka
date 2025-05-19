@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/LogoutButton.css';
 
 const LogoutButton = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const handleLogout = async () => {
+    setLoading(true);
     try {
-      await fetch('/api/logout/', {
+      const response = await fetch('http://localhost:8000/api/logout/', {
         method: 'POST',
         credentials: 'include',
       });
-      window.location.href = '/';
+
+      if (!response.ok) {
+        throw new Error('Błąd podczas wylogowywania');
+      }
+
+      // Po udanym wylogowaniu przekieruj na stronę logowania
+      navigate('/');
     } catch (error) {
-      console.error('Błąd wylogowania:', error);
+      console.error('Logout error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
